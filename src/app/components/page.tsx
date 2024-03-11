@@ -22,9 +22,25 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 import NextImage from '@/components/NextImage';
 import Skeleton from '@/components/Skeleton';
 
+import withAuth from '@/utils/withAuth';
+
+
+
+
+
+
 type Color = (typeof colorList)[number];
 
-export default function ComponentPage() {
+const ComponentPage = () => {
+
+  // const session = useSession({
+  //   required: true,
+  //   onUnauthenticated() {
+  //     redirect('/signin');
+  //   },
+  // });
+  
+
   const [mode, setMode] = React.useState<'dark' | 'light'>('light');
   const [color, setColor] = React.useState<Color>('sky');
   function toggleMode() {
@@ -459,3 +475,6 @@ const colorList = [
   'pink',
   'rose',
 ] as const;
+
+export default withAuth(ComponentPage);
+// ComponentPage.requireAuth = true

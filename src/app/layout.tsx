@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import * as React from 'react';
+import { Toaster } from "react-hot-toast";
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -8,6 +9,11 @@ import '@/styles/colors.css';
 import { siteConfig } from '@/constant/config';
 
 import SessionProvider from './SessionProvider';
+
+
+
+
+
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
@@ -51,6 +57,7 @@ export const metadata: Metadata = {
   // ],
 };
 
+
 export default function RootLayout({
   children,
 }: {
@@ -59,6 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full bg-white-900">
       <body className="h-full">
+        <Toaster position="bottom-center" />
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

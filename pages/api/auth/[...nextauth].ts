@@ -1,8 +1,8 @@
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from "@/firebase/firebase";
 
+import { auth } from "@/firebase/firebase";
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -21,11 +21,16 @@ export const authOptions = {
             }
             return null;
           })
-          .catch(error => (console.log(error)))
+          .catch(error => {
+            
+            console.log(error)
+            
+          })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(error);
+            // console.log(error);
+          
           });
       }
     })

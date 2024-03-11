@@ -1,38 +1,29 @@
 'use client';
 
 import Head from 'next/head';
+import { signOut } from 'next-auth/react';
+import {useSession } from 'next-auth/react';
 import * as React from 'react';
 import '@/lib/env';
-import { redirect } from 'next/navigation';
-import ArrowLink from '@/components/links/ArrowLink';
+
 import ButtonLink from '@/components/links/ButtonLink';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import UnstyledLink from '@/components/links/UnstyledLink';
-import { signOut, useSession } from 'next-auth/react';
 
-/**
- * SVGR Support
- * Caveat: No React Props Type.
- *
- * You can override the next-env if the type is important to you
- * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
- */
+import withAuth from '@/utils/withAuth';
+
 import Logo from '~/svg/Logo.svg';
+// export default function HomePage() {
 
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
-
-export default function HomePage() {
+const HomePage = () => {
 
   const session = useSession({
     required: true,
-    onUnauthenticated() {
-      redirect('/signin');
-    },
+    // onUnauthenticated() {
+    //   redirect('/signin');
+    // },
   });
 
-  console.log(session);
+  // console.log(session);
   return (
     <main>
       <Head>
@@ -85,4 +76,5 @@ export default function HomePage() {
   );
 }
 
-HomePage.requireAuth = true
+export default withAuth(HomePage);
+// HomePage.requireAuth = true

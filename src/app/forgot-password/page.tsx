@@ -1,25 +1,24 @@
 'use client';
-
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-export default function Signin() {
+import { auth } from "@/firebase/firebase";
+
+export default function ForgotPassword() {
+  
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
   const router = useRouter();
 
-  const handleLogin = () => {
-    signIn('credentials', { email, password, redirect: false, callbackUrl: '/' }).then(({ ok, error }) => {
-      if (ok) {
-          router.push("/");
-      } else {
-          console.log(error)
-          toast.error('Invalid Username or password');
-      }
-    })
+  const resetPassword = () => {
+    sendPasswordResetEmail(auth, email);
+    toast.success('Password reset email has been sent to your email');
+    router.push("/signin");
   }
+  
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -30,7 +29,7 @@ export default function Signin() {
             alt="Your Company"
           /> */}
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
-            Sign in to your account
+            Forgot Password ? 
           </h2>
         </div>
 
@@ -53,47 +52,25 @@ export default function Signin() {
               </div>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 ">
-                  Password
-                </label>
-                <div className="text-sm">
-                  <div onClick={() => router.push('/forgot-password')} className="cursor-pointer font-semibold text-indigo-400 hover:text-indigo-300">
-                    Forgot password?
-                  </div>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="block w-full rounded-md border-1 bg-white/5 py-1.5  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+            
 
             <div>
               <button
-                onClick={() => handleLogin() }
-                disabled={!email || !password}
+                onClick={() => resetPassword()}
+                disabled={!email}
                 className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
               >
-                Sign in
+                Send Reset Password Link
               </button>
             </div>
           </div>
 
-          <p className="mt-10 text-center text-sm text-gray-400">
+          {/* <p className="mt-10 text-center text-sm text-gray-400">
             Not a member?{' '}
             <button onClick={() => router.push('signup')} className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300">
               Sign Up
             </button>
-          </p>
+          </p> */}
         </div>
       </div>
     </>
