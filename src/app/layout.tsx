@@ -1,3 +1,4 @@
+
 import { Metadata } from 'next';
 import * as React from 'react';
 import { Toaster } from "react-hot-toast";
@@ -6,11 +7,11 @@ import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
+import { Header } from '@/components/Header';
+
 import { siteConfig } from '@/constant/config';
 
 import SessionProvider from './SessionProvider';
-
-
 
 
 
@@ -66,8 +67,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full bg-white-900">
       <body className="h-full">
-        <Toaster position="bottom-center" />
-        <SessionProvider>{children}</SessionProvider>
+        
+          <Header/>
+          <Toaster position="bottom-center" />
+          <SessionProvider>{children}</SessionProvider>
+        
       </body>
     </html>
   );

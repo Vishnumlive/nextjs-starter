@@ -1,7 +1,7 @@
 // utils/withAuth.js
 
 import { useRouter } from "next/navigation";
-import {useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useEffect } from "react";
 
 
@@ -28,7 +28,7 @@ const withAuth = (WrappedComponent) => {
       // If no session is found, redirect to login page
       return <RedirectToLogin />;
     }else{
-      console.log(session);
+      // console.log(session);
     }
 
     // If session exists, render the wrapped component

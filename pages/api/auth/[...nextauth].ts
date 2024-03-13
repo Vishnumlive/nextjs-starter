@@ -17,6 +17,7 @@ export const authOptions = {
         return await signInWithEmailAndPassword(auth, (credentials as any).email || '', (credentials as any).password || '')
           .then(userCredential => {
             if (userCredential.user) {
+              console.log(userCredential.user);
               return userCredential.user;
             }
             return null;
