@@ -23,17 +23,8 @@ const HomePage = () => {
     // },
   });
 
-  // React.useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged(user => {
-  //     if (user) {
-  //       console.log('User is signed in:', user.uid)
-  //     } else {
-  //       console.log('User is signed out')
-  //     }
-  //   })
-
-  //   return () => unsubscribe()
-  // }, [])
+  console.log(session.data?.user?.email);
+ 
 
   return (
     <main>
@@ -88,4 +79,4 @@ const HomePage = () => {
 }
 
 export default withAuth(HomePage);
-// HomePage.requireAuth = true
+

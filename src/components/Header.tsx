@@ -3,28 +3,20 @@ import Link from "next/link"
 import { signOut } from "next-auth/react";
 import { useState } from "react";
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
-import { auth } from "@/firebase/firebase";
 
 
 export const Header = () => {
 
-  React.useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        console.log(user.email);
-        setUserEmail(user.email);
-      } else {
-        console.log('User is signed out')
-      }
-    })
+  const user = useSelector((state) => state.session.user );
+  
+  console.log(user);
 
-    return () => unsubscribe()
-  }, [])
-
+  const userEmail ="";
+  
   const [showProfileDropDown , setShowProfileDropDown] = useState(false);
-  const [userEmail , setUserEmail] = useState("");
-
+  
   return (
     <div>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -36,6 +28,9 @@ export const Header = () => {
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <button type="button" className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
               <span className="sr-only" >Open user menu</span>
+              {user?.userRole && (
+                <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" onClick={() => setShowProfileDropDown(!showProfileDropDown) }/>
+              )}
               <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" onClick={() => setShowProfileDropDown(!showProfileDropDown) }/>
             </button>
 
@@ -79,12 +74,7 @@ export const Header = () => {
             <li>
               <Link href="/add-user" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Add user</Link>
             </li>
-            <li>
-              <Link href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</Link>
-            </li>
-            <li>
-              <Link href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</Link>
-            </li>
+            
           </ul>
         </div>
         </div>

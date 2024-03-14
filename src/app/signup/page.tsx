@@ -10,8 +10,10 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordAgain, setPasswordAgain] = useState('');
-
+  console.log("signup pages " + process.env.PUBLIC_FIREBASE_API_KEY);
   const signup = () => {
+
+    
     
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {

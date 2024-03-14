@@ -36,5 +36,13 @@ export const authOptions = {
       }
     })
   ],
+  callbacks: {
+    async signIn(user, account, profile) {
+      // Example of how to customize signin callback
+      console.log('User signed in:', user);
+      return true; // Return `true` to allow signin
+    },
+  },
+
 }
 export default NextAuth(authOptions)

@@ -10,9 +10,9 @@ import '@/styles/colors.css';
 import { Header } from '@/components/Header';
 
 import { siteConfig } from '@/constant/config';
+import ReduxProvider from '@/redux/ReduxProvider';
 
 import SessionProvider from './SessionProvider';
-
 
 
 
@@ -50,12 +50,7 @@ export const metadata: Metadata = {
     images: [`${siteConfig.url}/images/og.jpg`],
     // creator: '@th_clarence',
   },
-  // authors: [
-  //   {
-  //     name: 'Theodorus Clarence',
-  //     url: 'https://theodorusclarence.com',
-  //   },
-  // ],
+  
 };
 
 
@@ -64,14 +59,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  
+
   return (
     <html lang="en" className="h-full bg-white-900">
       <body className="h-full">
-        
-          <Header/>
-          <Toaster position="bottom-center" />
-          <SessionProvider>{children}</SessionProvider>
-        
+            <ReduxProvider>
+            <SessionProvider>
+            <Header/>
+            <Toaster position="bottom-center" />
+            {children}
+            </SessionProvider>
+            </ReduxProvider>
       </body>
     </html>
   );
