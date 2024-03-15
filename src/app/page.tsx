@@ -3,6 +3,7 @@
 import Head from 'next/head';
 import { signOut } from 'next-auth/react';
 import {useSession } from 'next-auth/react';
+// export default function HomePage() {
 import * as React from 'react';
 import '@/lib/env';
 
@@ -12,7 +13,6 @@ import UnderlineLink from '@/components/links/UnderlineLink';
 import withAuth from '@/utils/withAuth';
 
 import Logo from '~/svg/Logo.svg';
-// export default function HomePage() {
 
 const HomePage = () => {
 
@@ -23,7 +23,9 @@ const HomePage = () => {
     // },
   });
 
-  console.log(session.data?.user?.email);
+  console.log(session);
+
+//  console.log(session.data?.user?.email);
  
 
   return (

@@ -1,22 +1,22 @@
 "use client"
 
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react'
+import React from 'react'
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { auth } from '@/firebase/firebase';
 import { addData } from "@/firebase/firestore/data";
 
-export const AddUserDetails = () => {
+export const UserSignup = () => {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [userRole, setUserRole] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordAgain, setPasswordAgain] = useState('');
 
-  const addNewUser = ()=>{
+  const signup = () => {
 
-    createUserWithEmailAndPassword(auth, email, password)
+  createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
@@ -24,7 +24,7 @@ export const AddUserDetails = () => {
       const userDetails = {
         email : user.email,
         userId : user.uid,
-        userRole : userRole,
+        userRole : "editor",
         displayName : "",
         createdAt :  user.metadata.createdAt
       }
@@ -37,9 +37,8 @@ export const AddUserDetails = () => {
 
       setEmail('');
       setPassword('');
-      setConfirmPassword('');
-      setUserRole('')
-      toast.success("New user created successfully");
+      setPasswordAgain('');
+      toast.success("User created successfully");
       // ...
     })
     .catch((error) => {
@@ -48,38 +47,37 @@ export const AddUserDetails = () => {
       toast.error(errorMessage);
       // ..
     });
-  }
-  
+
+  };
+
   return (
-    <div>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           {/* <img
             className="mx-auto h-10 w-auto"
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
             alt="Your Company"
           /> */}
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
-            Add User
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
+            Sign up
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6">
-                User Email
+              <label htmlFor="email" className="block text-sm font-medium leading-6 ">
+                Email address
               </label>
               <div className="mt-2">
                 <input
                   id="email"
                   name="email"
                   type="email"
-                  value={ email }
                   autoComplete="email"
-                  onChange={(e) => setEmail(e.target.value) }
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-1 bg-white/5 py-1.5  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -89,14 +87,12 @@ export const AddUserDetails = () => {
                 <label htmlFor="password" className="block text-sm font-medium leading-6 ">
                   Password
                 </label>
-            
               </div>
               <div className="mt-2">
                 <input
                   id="password"
                   name="password"
                   type="password"
-                  value={ password }
                   autoComplete="current-password"
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -104,22 +100,19 @@ export const AddUserDetails = () => {
                 />
               </div>
             </div>
-
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="confirmpassword" className="block text-sm font-medium leading-6 ">
-                  Confirm Password
+                <label htmlFor="password" className="block text-sm font-medium leading-6 ">
+                  Password Again
                 </label>
-            
               </div>
               <div className="mt-2">
                 <input
-                  id="confirmpassword"
-                  name="password"
+                  id="passwordAgain"
+                  name="passwordAgain"
                   type="password"
-                  value={ confirmPassword }
                   autoComplete="current-password"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e) => setPasswordAgain(e.target.value)}
                   required
                   className="block w-full rounded-md border-1 bg-white/5 py-1.5  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 />
@@ -127,37 +120,16 @@ export const AddUserDetails = () => {
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="userRole" className="block text-sm font-medium leading-6 ">
-                  User Role
-                </label>
-            
-              </div>
-              <div className="mt-2">
-                <select className="block w-full rounded-md border-1 bg-white/5 py-1.5  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                onChange={(e) => setUserRole(e.target.value) }
-                value={ userRole }
-                >
-                  <option value="editor"> Editor </option>
-                  <option value="admin"> Admin User </option>
-                </select>
-                
-              </div>
-            </div>
-
-            <div>
               <button
-                disabled={ !email || !password || !confirmPassword || !userRole ||( password!== confirmPassword)}
+                disabled={(!email || !password || !passwordAgain) || (password !== passwordAgain)}
+                onClick={() => signup()}
                 className="disabled:opacity-40 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                onClick={ ()=> addNewUser()}
               >
-                Create User
+                Sign Up
               </button>
             </div>
-
           </div>
         </div>
       </div>
-    </div>
   )
 }

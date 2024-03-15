@@ -17,8 +17,18 @@ export const authOptions = {
         return await signInWithEmailAndPassword(auth, (credentials as any).email || '', (credentials as any).password || '')
           .then(userCredential => {
             if (userCredential.user) {
-              console.log(userCredential.user);
+              
+              // sessionStorage.setItem("firebaseToken", "vishnu");
+
+              // userCredential.user.getIdToken().then((response) => {
+              //   console.log("working code for idtoken");
+              //   console.log(response);
+              // });
               return userCredential.user;
+              // return {
+              //   user: userCredential.user,
+              //   firebaseToken: userCredential.user.accessToken
+              // }
             }
             return null;
           })
@@ -39,10 +49,15 @@ export const authOptions = {
   callbacks: {
     async signIn(user, account, profile) {
       // Example of how to customize signin callback
-      console.log('User signed in:', user);
+      
+      //sessionStorage.setItem("firebaseToken", user.user.accessToken);
+      // const token = await firebaseAdmin.auth().createCustomToken(user.id);
       return true; // Return `true` to allow signin
     },
+
   },
+
+ 
 
 }
 export default NextAuth(authOptions)

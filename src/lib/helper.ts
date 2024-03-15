@@ -11,3 +11,9 @@ export function getFromSessionStorage(key: string): string | null {
   }
   return null;
 }
+
+export function removeFromSessionStorage(key: string): string | null {
+  if (typeof sessionStorage !== 'undefined') {
+    sessionStorage.removeItem(key);
+  }
+}

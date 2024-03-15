@@ -1,14 +1,14 @@
 // utils/withAuth.js
 
 import { useSession } from 'next-auth/react';
-
+import { useDispatch } from 'react-redux';
 
 
 const withAuth = (WrappedComponent) => {
-
+  
   return function WithAuthVerification(props) {
-    
-    
+    const secretKey = 'your-secret-key';
+    const dispatch = useDispatch();
 
     const { data: session, status } = useSession({
       required: true,
@@ -28,6 +28,11 @@ const withAuth = (WrappedComponent) => {
       // return <RedirectToLogin />;
     }else{
       // console.log(session);
+
+      
+      
+      
+
     }
 
     // If session exists, render the wrapped component

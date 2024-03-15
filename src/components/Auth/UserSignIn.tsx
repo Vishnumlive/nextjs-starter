@@ -1,4 +1,5 @@
-
+'use client';
+import { AES } from 'crypto-js';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import {useState } from 'react';
@@ -15,7 +16,9 @@ export const UserSignIn = () => {
   const router = useRouter();
 
   const dispatch = useDispatch();
-
+  const secretKey = process.env.NEXT_PUBLIC_AES_SECRET_KEY;
+  //const secretKey = 'your-secret-key';
+  
   const handleLogin = () => {
 
     signIn('credentials', { email, password, redirect: false, callbackUrl: '/' }).then(({ ok, error }) => {
@@ -24,7 +27,13 @@ export const UserSignIn = () => {
         
           const result = getDataByFieldValue('users', "email",email)
               .then((response) => { 
-                console.log(response);
+                //console.log(response);
+
+                const encrypted = AES.encrypt(JSON.stringify(response), secretKey).toString();
+                //console.log(encrypted);
+
+                sessionStorage.setItem("firebaseToken", encrypted);
+
                 dispatch(setUser(response));
                 
               })

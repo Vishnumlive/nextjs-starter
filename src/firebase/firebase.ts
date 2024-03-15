@@ -5,26 +5,26 @@ import { getFirestore, } from 'firebase/firestore';
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCD9KwnVT18qybrapNYn_CcDeiW02PqDAY",
+//   authDomain: "next-firebase-crud-ca3b1.firebaseapp.com",
+//   projectId: "next-firebase-crud-ca3b1",
+//   storageBucket: "next-firebase-crud-ca3b1.appspot.com",
+//   messagingSenderId: "746428376674",
+//   appId: "1:746428376674:web:6fb6f9b5b174471d8c533b"
+// };
+
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCD9KwnVT18qybrapNYn_CcDeiW02PqDAY",
-  authDomain: "next-firebase-crud-ca3b1.firebaseapp.com",
-  projectId: "next-firebase-crud-ca3b1",
-  storageBucket: "next-firebase-crud-ca3b1.appspot.com",
-  messagingSenderId: "746428376674",
-  appId: "1:746428376674:web:6fb6f9b5b174471d8c533b"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
 
-// const firebaseConfig = {
-//   apiKey: process.env.PUBLIC_FIREBASE_API_KEY,
-//   authDomain: process.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
-//   projectId: process.env.PUBLIC_FIREBASE_PROJECT_ID,
-//   storageBucket: process.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: process.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-//   appId: process.env.PUBLIC_FIREBASE_APP_ID
-// };
-
-console.log(firebaseConfig);
 
 // Initialize Firebase
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
