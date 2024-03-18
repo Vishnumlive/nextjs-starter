@@ -1,53 +1,49 @@
 'use client';
-import { AES } from 'crypto-js';
+import { signInWithCustomToken } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import {useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 
-import { getDataByFieldValue } from "@/firebase/firestore/data";
-import { setUser } from '@/redux/slices/sessionSlice';
+import { auth } from "@/firebase/firebase";
+import { setUserData } from '@/redux/slices/sessionSlice';
 
 export const UserSignIn = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
-
   const dispatch = useDispatch();
-  const secretKey = process.env.NEXT_PUBLIC_AES_SECRET_KEY;
-  //const secretKey = 'your-secret-key';
   
-  const handleLogin = () => {
+  async function syncFirebaseAuth(session) {
+    
+    if (session && session.firebaseToken) {
+      try {
+        // console.log("signin with custom token"+session.firebaseToken);
+        await signInWithCustomToken(auth, session.firebaseToken)
+      } catch (error) {
+        console.error('Error signing in with custom token:', error)
+      }
+    } else {
+      auth.signOut()
+    }
+  }
 
-    signIn('credentials', { email, password, redirect: false, callbackUrl: '/' }).then(({ ok, error }) => {
+  const handleLogin = () => {
+    
+    signIn('credentials', { email, password, redirect: false, callbackUrl: '/' })
+    .then(async ({ ok, error }) => {
       if (ok) {
 
-        
-          const result = getDataByFieldValue('users', "email",email)
-              .then((response) => { 
-                //console.log(response);
-
-                const encrypted = AES.encrypt(JSON.stringify(response), secretKey).toString();
-                //console.log(encrypted);
-
-                sessionStorage.setItem("firebaseToken", encrypted);
-
-                dispatch(setUser(response));
-                
-              })
-          .then((result) => {
-            //console.log("part 2 is working");
-          })
-          .catch((error) => console.log(error));
-
-          
-          
-          router.push("/");
+        const session = await getSession();
+        await syncFirebaseAuth(session);
+        dispatch(setUserData(email));
+  
+        router.push("/");
       } else {
-          console.log(error)
-          toast.error('Invalid Username or password');
+        console.log(error)
+        toast.error('Invalid Username or password');
       }
     })
   }

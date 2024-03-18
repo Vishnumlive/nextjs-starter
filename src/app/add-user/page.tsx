@@ -17,7 +17,6 @@ function AddUser() {
     return (<p>Restricted page</p>)
   }
 
-  
   return (
     <>
       <AddUserDetails/>

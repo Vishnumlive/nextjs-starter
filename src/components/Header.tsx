@@ -1,34 +1,59 @@
 "use client"
-import { AES, enc } from 'crypto-js';
+import { signInWithCustomToken } from 'firebase/auth';
+import { getSession } from 'next-auth/react';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-import { getFromSessionStorage } from "@/lib/helper";
-
 import { Navigation } from '@/components/Header/Navigation';
 
-import { setUser } from '@/redux/slices/sessionSlice';
+import { auth } from "@/firebase/firebase";
+import { setUserData } from '@/redux/slices/sessionSlice';
 
 export const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user );
+
+  async function syncFirebaseAuth(session) {
+    
+
+    if (session && session.firebaseToken) {
+      try {
+        
+        await signInWithCustomToken(auth, session.firebaseToken)
+      } catch (error) {
+        console.error('Error signing in with custom token:', error)
+      }
+    } else {
+      auth.signOut()
+    }
+  }
+  
+React.useEffect( () => {
+
+    async function updateUserData(){
+
+      const session  = await getSession();
+      await syncFirebaseAuth(session);
+      
+      if(session?.user?.email){
+        dispatch(setUserData(session?.user?.email));
+      }
+      
+    }
+    
+    updateUserData(); 
   
 
-  const secretKey = process.env.NEXT_PUBLIC_AES_SECRET_KEY;
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log("onAuthStateChanged"); 
+      console.log(user);  // Returns: null
 
-  React.useEffect(() => {
-    const encrypted = getFromSessionStorage("firebaseToken");
+    });
+    return () => unsubscribe();
 
-      if (encrypted) {
-        // Decrypt the data and parse it back to an object
-        const decrypted = JSON.parse(AES.decrypt(encrypted, secretKey).toString(enc.Utf8));
-        
-        if(decrypted && !user){
-          // console.log(decrypted);
-          dispatch(setUser(decrypted));
-        }
-      }
+      
+
   },[dispatch])
 
   
