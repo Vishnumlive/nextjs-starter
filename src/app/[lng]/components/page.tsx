@@ -22,24 +22,19 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 import NextImage from '@/components/NextImage';
 import Skeleton from '@/components/Skeleton';
 
+import { useTranslation } from '@/app/i18n/client';
 import withAuth from '@/utils/withAuth';
-
-
-
-
-
 
 type Color = (typeof colorList)[number];
 
-const ComponentPage = () => {
-
+const ComponentPage = ({ params: { lng } }) => {
   // const session = useSession({
   //   required: true,
   //   onUnauthenticated() {
   //     redirect('/signin');
   //   },
   // });
-  
+  const { t } = useTranslation(lng, 'components-page');
 
   const [mode, setMode] = React.useState<'dark' | 'light'>('light');
   const [color, setColor] = React.useState<Color>('sky');
@@ -57,12 +52,12 @@ const ComponentPage = () => {
         <div
           className={clsx(
             'layout min-h-screen py-20',
-            mode === 'dark' ? 'text-white' : 'text-black'
+            mode === 'dark' ? 'text-white' : 'text-black',
           )}
         >
-          <h1>Built-in Components</h1>
+          <h1>{t('title')}</h1>
           <ArrowLink direction='left' className='mt-2' href='/'>
-            Back to Home
+            {t('back-link')}
           </ArrowLink>
 
           <div className='mt-8 flex flex-wrap gap-2'>
@@ -92,7 +87,7 @@ const ComponentPage = () => {
                     mode === 'dark'
                       ? 'bg-dark border border-gray-600'
                       : 'border-gray-300 bg-white',
-                    'focus:border-primary-400 focus:ring-primary-400 focus:outline-none focus:ring'
+                    'focus:border-primary-400 focus:ring-primary-400 focus:outline-none focus:ring',
                   )}
                   onChange={(e) => setColor(e.target.value as Color)}
                 >
@@ -449,7 +444,7 @@ const ComponentPage = () => {
       </section>
     </main>
   );
-}
+};
 
 const colorList = [
   'slate',

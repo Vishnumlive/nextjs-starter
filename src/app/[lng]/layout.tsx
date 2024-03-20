@@ -1,7 +1,7 @@
-
+import { dir } from 'i18next';
 import { Metadata } from 'next';
 import * as React from 'react';
-import { Toaster } from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -13,8 +13,7 @@ import { siteConfig } from '@/constant/config';
 import ReduxProvider from '@/redux/ReduxProvider';
 
 import SessionProvider from './SessionProvider';
-
-
+import { languages } from '../i18n/settings';
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
@@ -50,28 +49,30 @@ export const metadata: Metadata = {
     images: [`${siteConfig.url}/images/og.jpg`],
     // creator: '@th_clarence',
   },
-  
 };
 
+// const languages = ['en', 'de'];
+
+export async function generateStaticParams() {
+  return languages.map((lng) => ({ lng }));
+}
 
 export default function RootLayout({
   children,
+  params: { lng },
 }: {
   children: React.ReactNode;
 }) {
-
-  
-
   return (
-    <html lang="en" className="h-full bg-white-900">
-      <body className="h-full">
-            <ReduxProvider>
-            <SessionProvider>
-            <Header/>
-            <Toaster position="bottom-center" />
+    <html lang={lng} dir={dir(lng)} className='h-full bg-white-900'>
+      <body className='h-full'>
+        <ReduxProvider>
+          <SessionProvider>
+            <Header lang={lng} />
+            <Toaster position='bottom-center' />
             {children}
-            </SessionProvider>
-            </ReduxProvider>
+          </SessionProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
