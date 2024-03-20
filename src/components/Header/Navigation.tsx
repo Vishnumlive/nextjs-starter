@@ -7,7 +7,7 @@ import { useRef } from 'react';
 
 import { removeFromSessionStorage } from '@/lib/helper';
 
-import LangSwitcher from '../LangSwitcher';
+import LangSwitcher from './LangSwitcher';
 import { useTranslation } from '../../app/i18n/client';
 
 export const Navigation = ({ user, lang }) => {

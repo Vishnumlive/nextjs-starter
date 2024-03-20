@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 
-import gbFlag from '../assets/img/bg_flag.png';
-import geFlag from '../assets/img/german_flag.png';
+import gbFlag from '../../assets/img/bg_flag.png';
+import geFlag from '../../assets/img/german_flag.png';
 
 const LangSwitcher: React.FC = ({ lang }) => {
   interface Option {

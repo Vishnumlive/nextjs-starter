@@ -7,7 +7,7 @@ import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 
-import { Header } from '@/components/Header';
+import { Header } from '@/components/Header/Header';
 
 import { siteConfig } from '@/constant/config';
 import ReduxProvider from '@/redux/ReduxProvider';
