@@ -4,19 +4,16 @@ import * as React from 'react';
 import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
-// !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
-import '@/styles/colors.css';
 
 import { Header } from '@/components/Header/Header';
+import { Footer } from '@/components/Footer/Footer';
 
 import { siteConfig } from '@/constant/config';
 import ReduxProvider from '@/redux/ReduxProvider';
 
-import SessionProvider from './SessionProvider';
 import { languages } from '../i18n/settings';
+import SessionProvider from '../../providers/SessionProvider';
 
-// !STARTERCONF Change these default meta
-// !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -25,8 +22,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   robots: { index: true, follow: true },
-  // !STARTERCONF this is the default favicon, you can generate your own from https://realfavicongenerator.net/
-  // ! copy to /favicon folder
+
   icons: {
     icon: '/favicon/favicon.ico',
     shortcut: '/favicon/favicon-16x16.png',
@@ -47,7 +43,6 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     images: [`${siteConfig.url}/images/og.jpg`],
-    // creator: '@th_clarence',
   },
 };
 
@@ -71,6 +66,7 @@ export default function RootLayout({
             <Header lang={lng} />
             <Toaster position='bottom-center' />
             {children}
+            <Footer />
           </SessionProvider>
         </ReduxProvider>
       </body>

@@ -36,21 +36,11 @@ export const authOptions = {
           }
           return null;
         });
-        // .catch((error) => {
-        //   // console.log(error);
-        // })
-        // .catch((error) => {
-        //   //const errorCode = error.code;
-        //   // const errorMessage = error.message;
-        //   // console.log(error);
-        // });
       },
     }),
   ],
   callbacks: {
     async session({ session, token }) {
-      // console.log(token);
-
       if (token && token.uid) {
         const firebaseToken = await admin.auth().createCustomToken(token.uid);
 
@@ -59,11 +49,6 @@ export const authOptions = {
       return session;
     },
 
-    // async signIn(user, account, profile) {
-    //   // Example of how to customize signin callback
-
-    //   return true; // Return `true` to allow signin
-    // },
     async jwt({ token, user, account }) {
       return { ...token, ...user, ...account };
     },

@@ -1,7 +1,6 @@
 export const siteConfig = {
-  title: 'Next js, Tailwind, firebase Starter',
+  title: 'My Holiday Guide – Home - My Holiday Guide',
   description:
-    'A starter for Next.js, Tailwind CSS, and TypeScript with Absolute Import, Seo, Link component, pre-configured with Husky',
-  /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: 'https://tsnext-tw.thcl.dev',
+    'DigitalniVodič za iznajmljivače Vašim gostima je potreban digitalni Vodič GUIDE Recenzije Video Kreirajte digitalnivodič za vaš smještaj Informacije o smještaju Što detaljnije nam opišite vaš smještaj Pravila i upute za vaše goste Kućni red, pravila i upute za korištenje kućanskih aparata i opreme Vaša preporuka Preporučite gostima koristan i zanimljiv sadržaj u krugu smještaja Recenzije',
+  url: 'https://www.myholiday.guide/',
 };
