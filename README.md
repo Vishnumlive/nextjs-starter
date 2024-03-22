@@ -1,7 +1,7 @@
 # Next.js + Tailwind CSS + TypeScript Starter and Boilerplate
 
 <div align="center">
-  <h2>🔋 ts-nextjs-tailwind-starter</h2>
+  <h2>🔋 Nextjs-starter</h2>
   <p>Next.js + Tailwind CSS + TypeScript starter packed with useful development features.</p>
   
 </div>
@@ -14,7 +14,6 @@ This repository is 🔋 battery packed with:
 - ⚛️ React 18
 - ✨ TypeScript
 - 💨 Tailwind CSS 3 — Configured with CSS Variables to extend the **primary** color
-- 💎 Pre-built Components — Components that will **automatically adapt** with your brand color,
 - 🃏 Jest — Configured for unit testing
 - 📈 Absolute Import and Path Alias — Import components using `@/` prefix
 - 📏 ESLint — Find and fix problems in your code, also will **auto sort** your imports
@@ -27,7 +26,6 @@ This repository is 🔋 battery packed with:
 - 🔥 Snippets — A collection of useful snippets
 - 👀 Open Graph Helper Function — Awesome open graph generated using [og]
 - 🗺 Site Map — Automatically generate sitemap.xml
-- 📦 Expansion Pack — Easily install common libraries, additional components, and configs.
 
 ## Getting Started
 
