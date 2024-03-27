@@ -6,19 +6,19 @@ export const ItemsFormElement = ({
   lang,
   itemId,
   itemName,
-  itemLangData,
+  itemLangData, // full data 
   page,
   newTab,
-  itemsLangData,
+  itemsLangData, // language specific
   updateDataField,
 }) => {
   const [itemData, setItemData] = useState({});
 
   useEffect(() => {
     console.log('Language data');
-
-    if (itemLangData) {
-      setItemData(itemLangData[lang]);
+    console.log(itemsLangData);
+    if (itemsLangData) {
+      setItemData(itemsLangData[lang]);
     } else {
       console.log('setting empty');
       setItemData({});

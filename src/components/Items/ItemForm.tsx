@@ -9,7 +9,7 @@ import ImageUpload from '@/components/ImageUpload/ImageUpload';
 import { ItemsFormElement } from '@/components/Items/ItemsFormElement';
 import TabView from '@/components/TabView/TabView';
 
-import { addData } from '@/firebase/firestore/data';
+import { addData, updateData } from '@/firebase/firestore/data';
 
 const ItemForm = ({ itemName, itemId, itemsData, page, params }) => {
   console.log('Printing ' + itemName + ' data');
@@ -33,12 +33,18 @@ const ItemForm = ({ itemName, itemId, itemsData, page, params }) => {
   };
 
   const addUpdateService = () => {
+    const language = [];
+    for (const key in itemsLangData) {
+      language.push(key);
+    }
+
     if (!itemId) {
       // Add service
 
       const serviceDetails = {
         itemCategory: 'beach',
         intLang: 'en',
+        languages: language,
         ...itemsLangData,
       };
 
@@ -55,8 +61,15 @@ const ItemForm = ({ itemName, itemId, itemsData, page, params }) => {
       // Update service
 
       // itemLangData[selLang] = itemData;
+      const serviceDetails = {
+        itemCategory: 'beach',
+        intLang: 'en',
+        languages: language,
+        ...itemsLangData,
+      };
 
-      const { error } = updateData('services', itemId, itemsLangData);
+      console.log(serviceDetails);
+      const { error } = updateData('services', itemId, serviceDetails);
 
       toast.success('Service updated successfully');
     }
@@ -92,20 +105,30 @@ const ItemForm = ({ itemName, itemId, itemsData, page, params }) => {
     />
   );
 
-  const tabArray = [{ name: 'en', content: EnglishTab }];
+  //const tabArray = [{ name: 'en', content: EnglishTab }];
+  const tabArray = [];
 
   useEffect(() => {
-    console.log('Items form data ' + itemsData);
-    console.log(itemsData['languages']);
+    // console.log('Items form data ' + itemsData);
+    console.log(itemsData.itemCategory);
     const langdataDb = [];
-    if (itemsData) {
+    if (itemsData.itemCategory) {
       for (const key in itemsData['languages']) {
         const ln = itemsData['languages'][key];
         langdataDb[ln] = itemsData[ln];
-        console.log('Print value ' + ln);
-        if (itemsData.hasOwnProperty(key)) {
-          // Printing Keys
+      }
 
+      console.log(langdataDb);
+
+      setItemsLangData(langdataDb);
+
+      for (const key in itemsData['languages']) {
+        const ln = itemsData['languages'][key];
+
+        console.log('Print value ' + ln);
+        if (itemsData.hasOwnProperty(ln)) {
+          // Printing Keys
+          console.log("Printing inside" + itemsData[ln]);
           const tabContent = (
             <ItemsFormElement
               lang={ln}
@@ -114,7 +137,7 @@ const ItemForm = ({ itemName, itemId, itemsData, page, params }) => {
               page={page}
               itemLangData={langData}
               newTab={false}
-              itemsLangData={itemsLangData}
+              itemsLangData={langdataDb}
               updateDataField={updateItemsLangData}
             />
           );
@@ -123,6 +146,8 @@ const ItemForm = ({ itemName, itemId, itemsData, page, params }) => {
             name: ln,
             content: tabContent,
           });
+        } else {
+          console.log("else part is working");
         }
       }
       console.log('printing tab data');
@@ -130,17 +155,20 @@ const ItemForm = ({ itemName, itemId, itemsData, page, params }) => {
       // works for edit page
       setLangData(itemsData);
 
-      setItemsLangData(langdataDb);
+
     } else {
+
+      tabArray.push({ name: 'en', content: EnglishTab });
+      console.log(tabArray);
       // works for add page
       setLangData({});
     }
   }, []);
 
-  const activeClass =
-    'text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500';
-  const inactiveClass =
-    'rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300';
+  // const activeClass =
+  //   'text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500';
+  // const inactiveClass =
+  //   'rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300';
 
   return (
     <section className='w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between'>
