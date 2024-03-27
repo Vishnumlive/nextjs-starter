@@ -1,10 +1,5 @@
 import * as React from 'react';
 
-// export const metadata: Metadata = {
-//   title: 'Add User page',
-//   description: 'Pre-built components with awesome default',
-// };
-
 export async function generateMetadata({ params: { lng } }) {
   const messages = (await import(`../../i18n/locales/${lng}/meta-data.json`))
     .default;

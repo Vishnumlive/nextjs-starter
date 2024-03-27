@@ -1,29 +1,38 @@
 'use client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import ItemForm from '@/components/Items/ItemForm';
-
-import { getData } from '@/firebase/firestore/data';
+import { getAllDataByFieldValue } from '@/firebase/firestore/data';
 
 const ItemsList = ({ lang, itemName }) => {
   console.log(lang);
   const [enableAdd, setEnableAdd] = useState(false);
-  const [categoryList, setCategoryList] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
 
   useEffect(() => {
-    const getCategories = async () => {
-      const categoryItems = (await getData('category')).result;
+    const getServiceList = async () => {
+      const servicesItems = await getAllDataByFieldValue(
+        'services',
+        'itemCategory',
+        'beach',
+      );
+      console.log(servicesItems);
 
-      const formatedData = categoryItems?.map((item) => ({
+      const formatedData = servicesItems?.map((item) => ({
         id: item.id,
-        categoryName: item[lang].categoryName,
+        itemName: item[item.intLang].itemName,
+        itemType: item[item.intLang].itemType,
+        itemAddress: item[item.intLang].itemAddress,
+        itemDetails: item[item.intLang].itemDetails,
+        itemLatitude: item[item.intLang].itemLatitude,
+        itemLongitude: item[item.intLang].itemLongitude,
       }));
 
-      setCategoryList(formatedData);
+      setServiceList(formatedData);
     };
 
-    getCategories();
-  }, [getData]);
+    getServiceList();
+  }, [getAllDataByFieldValue]);
 
   const handleCloseModal = () => {
     setEnableAdd(false);
@@ -39,9 +48,8 @@ const ItemsList = ({ lang, itemName }) => {
       <section className='w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between'>
         <div className='container'>
           <div style={{ padding: '10px 0px' }}>
-            <button
-              onClick={() => setEnableAdd(true)}
-              href='javascript:void(0)'
+            <Link
+              href='/admin/beaches/add-beach'
               className='
               border border-primary
               py-2
@@ -53,7 +61,7 @@ const ItemsList = ({ lang, itemName }) => {
               '
             >
               Add {itemName}
-            </button>
+            </Link>
 
             {enableAdd === true && (
               <div className='modal-overlay'>
@@ -66,12 +74,12 @@ const ItemsList = ({ lang, itemName }) => {
                   </button>
                   <div className='modal-content'>
                     {/* Modal content goes here */}
-                    <ItemForm itemName={itemName} />
                   </div>
                 </div>
               </div>
             )}
           </div>
+
           <div className='flex flex-wrap -mx-4'>
             <div className='w-full px-4'>
               <div className='max-w-full overflow-x-auto'>
@@ -91,7 +99,7 @@ const ItemsList = ({ lang, itemName }) => {
                            lg:px-4
                            '
                       >
-                        Category ID
+                        {itemName} Id
                       </th>
                       <th
                         className='
@@ -106,7 +114,7 @@ const ItemsList = ({ lang, itemName }) => {
                            lg:px-4
                            '
                       >
-                        Category Name
+                        {itemName} Name
                       </th>
 
                       <th
@@ -123,12 +131,63 @@ const ItemsList = ({ lang, itemName }) => {
                            border-r border-transparent
                            '
                       >
-                        Register
+                        {itemName} Type
+                      </th>
+
+                      <th
+                        className='
+                           w-1/6
+                           min-w-[160px]
+                           text-lg
+                           font-semibold
+                           text-white
+                           py-4
+                           lg:py-7
+                           px-3
+                           lg:px-4
+                           border-r border-transparent
+                           '
+                      >
+                        {itemName} Details
+                      </th>
+
+                      <th
+                        className='
+                           w-1/6
+                           min-w-[160px]
+                           text-lg
+                           font-semibold
+                           text-white
+                           py-4
+                           lg:py-7
+                           px-3
+                           lg:px-4
+                           border-r border-transparent
+                           '
+                      >
+                        {itemName} Location
+                      </th>
+
+                      <th
+                        className='
+                           w-1/6
+                           min-w-[160px]
+                           text-lg
+                           font-semibold
+                           text-white
+                           py-4
+                           lg:py-7
+                           px-3
+                           lg:px-4
+                           border-r border-transparent
+                           '
+                      >
+                        Action
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {categoryList.map((category, id) => (
+                    {serviceList.map((service, id) => (
                       <tr key={id}>
                         <td
                           className='
@@ -141,7 +200,7 @@ const ItemsList = ({ lang, itemName }) => {
                            border-b border-[#E8E8E8]
                            '
                         >
-                          {category.id}
+                          {service.id}
                         </td>
                         <td
                           className='
@@ -154,7 +213,46 @@ const ItemsList = ({ lang, itemName }) => {
                            border-b border-[#E8E8E8]
                            '
                         >
-                          {category.categoryName}
+                          {service.itemName}
+                        </td>
+                        <td
+                          className='
+                           text-center text-dark
+                           font-medium
+                           text-base
+                           py-5
+                           px-2
+                           bg-[#F3F6FF]
+                           border-b border-[#E8E8E8]
+                           '
+                        >
+                          {service.itemType}
+                        </td>
+                        <td
+                          className='
+                           text-center text-dark
+                           font-medium
+                           text-base
+                           py-5
+                           px-2
+                           bg-[#F3F6FF]
+                           border-b border-[#E8E8E8]
+                           '
+                        >
+                          {service.itemDetails}
+                        </td>
+                        <td
+                          className='
+                           text-center text-dark
+                           font-medium
+                           text-base
+                           py-5
+                           px-2
+                           bg-[#F3F6FF]
+                           border-b border-[#E8E8E8]
+                           '
+                        >
+                          {service.itemAddress}
                         </td>
                         <td
                           className='
@@ -168,7 +266,7 @@ const ItemsList = ({ lang, itemName }) => {
                            '
                         >
                           <a
-                            href='javascript:void(0)'
+                            href={`/admin/beaches/${service.id}`}
                             className='
                               border border-primary
                               py-2
