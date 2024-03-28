@@ -13,6 +13,8 @@ const addBeach = () => {
         itemId={null}
         itemName='Beach'
         itemsData={itemsData}
+        category='beach'
+        returnUrl='/admin/beaches'
       />
     </div>
   );

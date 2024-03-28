@@ -20,12 +20,12 @@ const ItemsList = ({ lang, itemName }) => {
 
       const formatedData = servicesItems?.map((item) => ({
         id: item.id,
-        itemName: item[item.intLang].itemName,
-        itemType: item[item.intLang].itemType,
-        itemAddress: item[item.intLang].itemAddress,
-        itemDetails: item[item.intLang].itemDetails,
-        itemLatitude: item[item.intLang].itemLatitude,
-        itemLongitude: item[item.intLang].itemLongitude,
+        itemName: item[item.languages[0]].itemName,
+        itemType: item[item.languages[0]].itemType,
+        itemAddress: item[item.languages[0]].itemAddress,
+        itemDetails: item[item.languages[0]].itemDetails,
+        itemLatitude: item[item.languages[0]].itemLatitude,
+        itemLongitude: item[item.languages[0]].itemLongitude,
       }));
 
       setServiceList(formatedData);

@@ -1,12 +1,11 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export const ItemsFormElement = ({
   lang,
-  itemId,
   itemName,
-  itemLangData, // full data 
   page,
   newTab,
   itemsLangData, // language specific
@@ -29,13 +28,20 @@ export const ItemsFormElement = ({
 
   function addNewLanguageData() {
     const selLang = langRef.current.value;
-    console.log(itemData);
-
     const langKey = selLang == 'new' ? itemData.itemLan : selLang;
 
     itemsLangData[langKey] = itemData;
-    console.log(itemsLangData);
     updateDataField(itemsLangData);
+
+    newTab
+      ? toast.success('New language added successfully', {
+          duration: 4000,
+          position: 'top-center',
+        })
+      : toast.success('Language updated successfully', {
+          duration: 4000,
+          position: 'top-center',
+        });
   }
 
   const languageList = [
@@ -63,14 +69,15 @@ export const ItemsFormElement = ({
               id='language'
               className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
               name='language'
-              // value={itemData?.itemLan}
               onChange={(e) =>
                 setItemData({ ...itemData, itemLan: e.target.value })
               }
             >
               <option selected>Choose a country</option>
-              {languageList.map((item) => (
-                <option value={item.code}>{item.name}</option>
+              {languageList.map((item, index) => (
+                <option value={item.code} key={index}>
+                  {item.name}
+                </option>
               ))}
             </select>
           </div>
@@ -91,7 +98,7 @@ export const ItemsFormElement = ({
             onChange={(e) =>
               setItemData({ ...itemData, itemName: e.target.value })
             }
-            value={itemData?.itemName}
+            value={itemData?.itemName || ''}
             required
             className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
           />
@@ -112,7 +119,7 @@ export const ItemsFormElement = ({
             onChange={(e) =>
               setItemData({ ...itemData, itemType: e.target.value })
             }
-            value={itemData?.itemType}
+            value={itemData?.itemType || ''}
             required
             className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
           />
@@ -130,28 +137,12 @@ export const ItemsFormElement = ({
             onChange={(e) =>
               setItemData({ ...itemData, itemDetails: e.target.value })
             }
-            value={itemData?.itemDetails}
+            value={itemData?.itemDetails || ''}
             required
             className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
           />
         </div>
       </div>
-
-      {/* <div className='pt-4'>
-        <label htmlFor='email' className='block text-sm font-medium leading-6'>
-          Beach Details
-        </label>
-        <div className='mt-2'>
-          <input
-            name='categoryNameEn'
-            type='text'
-            onChange={(e) => setItemDetails(e.target.value)}
-            //value={}
-            required
-            className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
-          />
-        </div>
-      </div> */}
 
       <div className='pt-4'>
         <label htmlFor='email' className='block text-sm font-medium leading-6'>
@@ -164,7 +155,7 @@ export const ItemsFormElement = ({
             onChange={(e) =>
               setItemData({ ...itemData, itemAddress: e.target.value })
             }
-            value={itemData?.itemAddress}
+            value={itemData?.itemAddress || ''}
             required
             className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
           />
@@ -182,7 +173,7 @@ export const ItemsFormElement = ({
             onChange={(e) =>
               setItemData({ ...itemData, itemLat: e.target.value })
             }
-            value={itemData?.itemLat}
+            value={itemData?.itemLat || ''}
             required
             className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
           />
@@ -200,7 +191,7 @@ export const ItemsFormElement = ({
             onChange={(e) =>
               setItemData({ ...itemData, itemLong: e.target.value })
             }
-            value={itemData?.itemLong}
+            value={itemData?.itemLong || ''}
             required
             className='block w-full rounded-md border-1 bg-white/5 py-1.5 shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6'
           />
@@ -210,10 +201,9 @@ export const ItemsFormElement = ({
       <div className='mt-5'>
         <button
           className='disabled:opacity-40 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
-          // onClick={() => addUpdateService()}
           onClick={() => addNewLanguageData()}
         >
-          {page + ' ' + itemName}
+          {page + ' Language'}
         </button>
       </div>
     </section>

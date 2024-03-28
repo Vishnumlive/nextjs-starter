@@ -43,7 +43,14 @@ const EditPage = ({ params }) => {
   return (
     <div>
       {beachData ? (
-        <ItemForm itemName='Beach' itemId={params.beachId} page='Edit' itemsData={beachData} />
+        <ItemForm
+          itemName='Beach'
+          itemId={params.beachId}
+          page='Edit'
+          itemsData={beachData}
+          category='beach'
+          returnUrl='/admin/beaches'
+        />
       ) : null}
     </div>
   );
