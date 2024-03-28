@@ -53,6 +53,7 @@ const ItemForm = ({
     for (const key in itemsLangData) {
       language.push(key);
     }
+    const currentTime = Date.now();
 
     if (!itemId) {
       // Add service
@@ -61,6 +62,9 @@ const ItemForm = ({
         itemCategory: category,
         imageUrl: imageUrl,
         languages: language,
+        created: currentTime,
+        updated: currentTime,
+        status: 'open',
         ...itemsLangData,
       };
 
@@ -84,6 +88,7 @@ const ItemForm = ({
         itemCategory: category,
         imageUrl: imageUrl,
         languages: language,
+        updated: currentTime,
         ...itemsLangData,
       };
 

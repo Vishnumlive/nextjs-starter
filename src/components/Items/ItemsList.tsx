@@ -1,15 +1,18 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
-import { getAllDataByFieldValue } from '@/firebase/firestore/data';
+import { deleteData, getAllDataByFieldValue } from '@/firebase/firestore/data';
 
 const ItemsList = ({ lang, itemName }) => {
   console.log(lang);
   const [enableAdd, setEnableAdd] = useState(false);
   const [serviceList, setServiceList] = useState([]);
+  const [deleteStat, setDeleteStat] = useState(false);
 
   useEffect(() => {
+    setDeleteStat(false);
     const getServiceList = async () => {
       const servicesItems = await getAllDataByFieldValue(
         'services',
@@ -32,10 +35,24 @@ const ItemsList = ({ lang, itemName }) => {
     };
 
     getServiceList();
-  }, [getAllDataByFieldValue]);
+  }, [getAllDataByFieldValue, deleteStat]);
 
   const handleCloseModal = () => {
     setEnableAdd(false);
+  };
+
+  const handleDelete = (serviceId) => {
+    const { error } = deleteData('services', serviceId);
+    if (error) {
+      toast.error(error);
+    }
+
+    toast.success('Service Deleted successfully', {
+      duration: 4000,
+      position: 'top-center',
+    });
+
+    setDeleteStat(true);
   };
 
   return (
@@ -278,6 +295,21 @@ const ItemsList = ({ lang, itemName }) => {
                               '
                           >
                             Edit
+                          </a>
+
+                          <a
+                            onClick={() => handleDelete(service.id)}
+                            className='
+                              border border-primary
+                              py-2
+                              px-6
+                              text-primary
+                              inline-block
+                              rounded
+                              hover:bg-primary hover:text-white
+                              '
+                          >
+                            Delete
                           </a>
                         </td>
                       </tr>
